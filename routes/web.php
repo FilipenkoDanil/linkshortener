@@ -13,10 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/', [\App\Http\Controllers\LinkController::class, 'index'])->name('home');
+Route::post('/cc', [\App\Http\Controllers\LinkController::class, 'store'])->name('gen-shorten-link');
+Route::get('/{code}', [\App\Http\Controllers\LinkController::class, 'shortenLink'])->name('shorten-link');
+
+Route::get('/stats', [\App\Http\Controllers\LinkController::class, 'stats'])->name('my-links');
