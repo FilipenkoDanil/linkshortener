@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LinkRequest;
 use App\Models\ShortLink;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class LinkController extends Controller
@@ -22,13 +24,16 @@ class LinkController extends Controller
             'code' => Str::random(6)
         ]);
 
-        return redirect()->route('home')->with('success', "Ссылка успешно создана: " . config('app.url') . '/' . $link->code);
+        return redirect()->route('home')->with('success', "Ссылка успешно создана!")->with('link', config('app.url') . '/' . $link->code);
     }
 
     public function shortenLink($code)
     {
         $link = ShortLink::where('code', $code)->first();
-        $link->increment('count');
-        return redirect($link->link);
+        if ($link) {
+            $link->increment('count');
+            return redirect($link->link);
+        }
+        abort(404);
     }
 }
