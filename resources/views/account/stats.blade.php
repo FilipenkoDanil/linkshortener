@@ -23,14 +23,22 @@
                                 <tbody>
                                 @foreach($links as $link)
                                     <tr>
-                                        <td><a href="{{ config('app.url') . '/' .$link->code }}" target="_blank">{{ config('app.url') . '/' . $link->code }}</a></td>
+                                        <td><a href="{{ config('app.url') . '/' .$link->code }}"
+                                               target="_blank">{{ config('app.url') . '/' . $link->code }}</a></td>
                                         <td><a href="{{ $link->link }}" target="_blank">{{ $link->link }}</a></td>
                                         <td>{{ $link->count }}</td>
                                         <td>
-                                            <form action="{{ route('delete-link', $link) }}" method="POST">
-                                                @csrf
-                                                <button class="btn btn-danger">Удалить</button>
-                                            </form>
+                                            <div role="group" class="btn-group">
+                                                <form action="{{ route('delete-link', $link->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger">Удалить</button>
+                                                </form>
+
+                                                <a href="{{ route('details', $link->id) }}">
+                                                    <button class="btn btn-primary">Подробнее</button>
+                                                </a>
+                                            </div>
+
                                         </td>
                                     </tr>
                                 @endforeach

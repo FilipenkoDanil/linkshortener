@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LinkRequest;
+use App\Models\Ip;
 use App\Models\ShortLink;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
 class LinkController extends Controller
@@ -32,6 +34,12 @@ class LinkController extends Controller
         $link = ShortLink::where('code', $code)->first();
         if ($link) {
             $link->increment('count');
+
+            Ip::create([
+                'short_link_id' => $link->id,
+                'ip' => Request::ip(),
+            ]);
+
             return redirect($link->link);
         }
         abort(404);

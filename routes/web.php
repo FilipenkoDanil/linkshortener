@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/links', [\App\Http\Controllers\UserController::class, 'stats'])->name('my-links')->middleware('auth');
+Route::get('/details/{link}', [\App\Http\Controllers\UserController::class, 'details'])->name('details')->middleware('auth');
 Route::post('/delete_link/{link}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('delete-link')->middleware('auth');
 
 Route::get('/', [\App\Http\Controllers\LinkController::class, 'index'])->name('home');
